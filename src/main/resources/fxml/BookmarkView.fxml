@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+
+<StackPane id="StackPane" fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aoetk.bookmarkviewer.view.BookmarkViewController">
+    <children>
+        <SplitPane dividerPositions="0.14023372287145242, 0.35058430717863104" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="background">
+            <items>
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <center>
+                        <ListView fx:id="tagListView" prefHeight="200.0" prefWidth="200.0">
+                            <BorderPane.margin>
+                                <Insets top="10.0" />
+                            </BorderPane.margin>
+                        </ListView>
+                    </center>
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                    </padding>
+                    <top>
+                        <TextField fx:id="searchBox" prefWidth="200.0" />
+                    </top>
+                </BorderPane>
+                <ListView fx:id="bookmarkListView" prefHeight="200.0" prefWidth="200.0" />
+                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                    <bottom>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+                            <children>
+                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" text="&lt;-" HBox.hgrow="NEVER">
+                                    <font>
+                                        <Font name="System Font Regular" size="16.0" fx:id="x1" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="10.0" fx:id="x2" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="forwardButton" font="$x1" mnemonicParsing="false" onAction="#handleForwardButtonAction" text="-&gt;" HBox.hgrow="NEVER">
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="5.0" />
+                                    </HBox.margin>
+                                </Button>
+                                <Button fx:id="stopButton" onAction="#handleStopButtonAction" mnemonicParsing="false" text="×" HBox.hgrow="NEVER" HBox.margin="$x2">
+                                    <font>
+                                        <Font name="Meiryo Bold" size="16.0" />
+                                    </font>
+                                </Button>
+                                <TextField fx:id="locationBar" onKeyPressed="#handleLocationBarKeyPressed" prefWidth="200.0" HBox.hgrow="ALWAYS" HBox.margin="$x2" />
+                                <ProgressIndicator fx:id="webIndicator" prefHeight="20.0" prefWidth="20.0" progress="-1.0" visible="false">
+                                    <HBox.margin>
+                                        <Insets bottom="5.0" left="10.0" right="10.0" />
+                                    </HBox.margin>
+                                </ProgressIndicator>
+                            </children>
+                        </HBox>
+                    </bottom>
+                    <center>
+                        <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" />
+                    </center>
+                </BorderPane>
+            </items>
+        </SplitPane>
+        <Region fx:id="vailRegion" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);" />
+        <VBox fx:id="indicatorBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <children>
+                <ProgressIndicator progress="-1.0" />
+                <Label text="ブックマークを読み込んでいます...">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+            </children>
+            <StackPane.margin>
+                <Insets />
+            </StackPane.margin>
+        </VBox>
+    </children>
+    <stylesheets>
+        <URL value="@../styles/Styles.css" />
+    </stylesheets>
+</StackPane>
