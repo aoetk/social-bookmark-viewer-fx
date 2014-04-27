@@ -71,10 +71,10 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
     private String getApiKey() {
         try {
             Properties properties = new Properties();
-            properties.load(getClass().getResourceAsStream("/conf/config.properties"));
+            properties.load(getClass().getResourceAsStream("/conf/key.properties"));
             return properties.getProperty("diigo.api.key");
         } catch (IOException e) {
-            throw new IllegalStateException("config.properties was not found.", e);
+            throw new IllegalStateException("key.properties was not found.", e);
         }
     }
 

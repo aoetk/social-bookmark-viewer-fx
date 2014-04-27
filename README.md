@@ -9,7 +9,7 @@ How to use
 ビルドには Maven3 を使います。
 
 まず、 [ここ](https://www.diigo.com/api_keys/new/) から Diigo の API キーを取得してください。
-取得したら `src/main/resources/conf/config.properties` のキー `diigo.api.key` に取得したキーを設定します。
+取得したら `src/main/resources/conf/key.properties` のキー `diigo.api.key` に取得したキーを設定します。
 
     diigo.api.key=(入手した API キー)
 
