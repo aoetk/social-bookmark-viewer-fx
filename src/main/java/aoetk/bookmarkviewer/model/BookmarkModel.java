@@ -1,6 +1,7 @@
 package aoetk.bookmarkviewer.model;
 
 import aoetk.bookmarkviewer.service.BookmarkServiceClient;
+import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
@@ -54,6 +55,16 @@ public class BookmarkModel {
      */
     public BookmarkModel(BookmarkServiceClient serviceClient) {
         this.serviceClient = serviceClient;
+    }
+
+    /**
+     * ブックマークエントリの読み込み数を取得するプロパティ.
+     * 進捗状況表示に利用する.
+     *
+     * @return ブックマークエントリの読み込み数
+     */
+    public ReadOnlyIntegerProperty loadedCountProperty() {
+        return serviceClient.loadedCountProperty();
     }
 
     /**

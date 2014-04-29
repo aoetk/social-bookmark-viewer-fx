@@ -31,6 +31,9 @@ import java.util.ResourceBundle;
 public class BookmarkViewController implements Initializable {
 
     @FXML
+    Label progressLabel;
+
+    @FXML
     ProgressIndicator webIndicator;
 
     @FXML
@@ -115,6 +118,7 @@ public class BookmarkViewController implements Initializable {
         });
         indicatorBox.visibleProperty().bind(loadingBookmarkService.runningProperty());
         vailRegion.visibleProperty().bind(loadingBookmarkService.runningProperty());
+        progressLabel.textProperty().bind(loadingBookmarkService.messageProperty());
         loadingBookmarkService.start();
     }
 

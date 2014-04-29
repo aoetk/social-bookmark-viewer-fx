@@ -1,6 +1,8 @@
 package aoetk.bookmarkviewer.service;
 
 import aoetk.bookmarkviewer.model.BookmarkEntry;
+import javafx.beans.property.ReadOnlyIntegerProperty;
+import javafx.beans.property.ReadOnlyIntegerWrapper;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
@@ -22,6 +24,8 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
     public static final String DIIGO_API_URL = "https://secure.diigo.com/api/v2/bookmarks";
 
     private String userName;
+
+    private ReadOnlyIntegerWrapper loadedCount = new ReadOnlyIntegerWrapper();
 
     /**
      * コンストラクタ.
@@ -49,8 +53,12 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
         return result;
     }
 
+    @Override
+    public ReadOnlyIntegerProperty loadedCountProperty() {
+        return loadedCount.getReadOnlyProperty();
+    }
+
     private void loadEntry(int startIndex, List<BookmarkEntry> result) {
-        System.out.println("loading... startIndex = " + startIndex);
         List<BookmarkDto> bookmarks = client.target(DIIGO_API_URL)
                 .queryParam("key", getApiKey()).queryParam("filter", "all").queryParam("user", userName)
                 .queryParam("count", 100).queryParam("start", startIndex)
@@ -63,6 +71,7 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
             result.add(new BookmarkEntry(bookmark.getTitle(), bookmark.getUrl(), bookmark.getDesc(), tags,
                     bookmark.getCreatedAtAsLong()));
         }
+        loadedCount.set(result.size());
         if (bookmarks.size() > 0) {
             loadEntry(startIndex + 100, result);
         }
