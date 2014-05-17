@@ -11,3 +11,7 @@
     -fx-underline: false;
     -fx-text-fill: green;
 }
+
+.diigo-button {
+    -fx-graphic: url(https://www.diigo.com/images/diigo-icon/16.png);
+}
