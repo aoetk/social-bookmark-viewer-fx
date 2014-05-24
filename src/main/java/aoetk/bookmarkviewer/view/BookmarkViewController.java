@@ -131,7 +131,6 @@ public class BookmarkViewController implements Initializable {
         webIndicator.visibleProperty().bind(webEngine.getLoadWorker().stateProperty().isEqualTo(Worker.State.RUNNING));
         backButton.disableProperty().bind(history.currentIndexProperty().isEqualTo(0));
         stopButton.disableProperty().bind(loadWorker.runningProperty().not());
-        locationBar.textProperty().bind(webEngine.locationProperty());
     }
 
     private void addListeners() {
@@ -169,6 +168,7 @@ public class BookmarkViewController implements Initializable {
         // WebView関連の表示状態管理
         history.currentIndexProperty().addListener((property, oldValue, newValue) ->
                 forwardButton.setDisable(history.getCurrentIndex() + 1 == history.getEntries().size()));
+        webEngine.locationProperty().addListener((observableValue, oldVal, newVal) -> locationBar.setText(newVal));
     }
 
     private void loadWebContent(String url) {
