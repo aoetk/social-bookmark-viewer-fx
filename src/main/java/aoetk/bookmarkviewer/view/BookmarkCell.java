@@ -7,7 +7,6 @@ import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.util.List;
@@ -34,19 +33,16 @@ public class BookmarkCell extends ListCell<BookmarkEntry> {
      */
     public BookmarkCell() {
         initComponent();
-        initStyle();
-    }
-
-    private void initStyle() {
-        txtTitle.setFont(new Font("System Bold", 16.0));
     }
 
     private void initComponent() {
         cellContainer = new VBox(5);
         cellContainer.getStylesheets().add("/styles/Styles.css");
         txtTitle = new Text();
+        txtTitle.getStyleClass().add("bookmark-title");
         VBox.setVgrow(txtTitle, Priority.NEVER);
         txtComment = new Text();
+        txtComment.getStyleClass().add("bookmark-comment");
         VBox.setVgrow(txtComment, Priority.ALWAYS);
         tagContainer = new HBox();
         VBox.setVgrow(tagContainer, Priority.NEVER);
@@ -57,27 +53,32 @@ public class BookmarkCell extends ListCell<BookmarkEntry> {
     protected void updateItem(BookmarkEntry bookmarkEntry, boolean empty) {
         super.updateItem(bookmarkEntry, empty);
         if (!bound) {
-            txtTitle.wrappingWidthProperty().bind(getListView().widthProperty().subtract(25));
-            txtComment.wrappingWidthProperty().bind(getListView().widthProperty().subtract(25));
+            txtTitle.wrappingWidthProperty().bind(getListView().widthProperty().subtract(35));
+            txtComment.wrappingWidthProperty().bind(getListView().widthProperty().subtract(35));
             bound = true;
         }
         if (empty) {
             setText(null);
             setGraphic(null);
         } else {
+            cellContainer.getChildren().clear();
             txtTitle.setText(bookmarkEntry.titleProperty().get());
             txtComment.setText(bookmarkEntry.commentProperty().get());
             tagContainer.getChildren().clear();
             List<Node> tagLinks = bookmarkEntry.getTags().stream()
-                    .map(tagName -> createTagLink(tagName)).collect(Collectors.toList());
+                    .map(this::createTagLink).collect(Collectors.toList());
             tagContainer.getChildren().addAll(tagLinks);
+            if (txtComment.getText().isEmpty()) {
+                cellContainer.getChildren().addAll(txtTitle, tagContainer);
+            } else {
+                cellContainer.getChildren().addAll(txtTitle, txtComment, tagContainer);
+            }
             setGraphic(cellContainer);
         }
     }
 
     private Node createTagLink(String tagName) {
-        Hyperlink hyperlink = new Hyperlink(tagName);
-        return hyperlink;
+        return new Hyperlink(tagName);
     }
 
 }

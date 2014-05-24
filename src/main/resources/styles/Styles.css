@@ -12,6 +12,16 @@
     -fx-text-fill: green;
 }
 
+.bookmark-title {
+    -fx-font-size: 1.2em;
+}
+
+.bookmark-comment {
+    -fx-font-size: 0.9em;
+    -fx-font-style: italic;
+    -fx-fill: dimgray;
+}
+
 .diigo-button {
     -fx-graphic: url(https://www.diigo.com/images/diigo-icon/16.png);
 }
