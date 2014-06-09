@@ -158,10 +158,7 @@ public class BookmarkViewController implements Initializable {
         // ブックマーク上でのタグリンククリックの監視
         bookmarkListView.addEventFilter(ActionEvent.ACTION, event -> {
            if (event.getTarget() instanceof Hyperlink) {
-               Hyperlink tagLink = (Hyperlink) event.getTarget();
-               tagSelectionModel.clearSelection();
-               tagSelectionModel.select(tagLink.getText());
-               tagListView.scrollTo(tagLink.getText());
+                handleTagLinkAction(event, tagSelectionModel);
            }
         });
 
@@ -169,6 +166,14 @@ public class BookmarkViewController implements Initializable {
         history.currentIndexProperty().addListener((property, oldValue, newValue) ->
                 forwardButton.setDisable(history.getCurrentIndex() + 1 == history.getEntries().size()));
         webEngine.locationProperty().addListener((observableValue, oldVal, newVal) -> locationBar.setText(newVal));
+    }
+
+    private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
+        Hyperlink tagLink = (Hyperlink) event.getTarget();
+        searchBox.setText("");
+        tagSelectionModel.clearSelection();
+        tagSelectionModel.select(tagLink.getText());
+        tagListView.scrollTo(tagLink.getText());
     }
 
     private void loadWebContent(String url) {
