@@ -115,6 +115,7 @@ public class BookmarkViewController implements Initializable {
             setListContent();
             addListeners();
             setBindings();
+            loadInitialPage(); // 暫定的にDiigooのログインページを初期表示する
         });
         loadingBookmarkService.setOnFailed(workerStateEvent -> {
             loadingBookmarkService.getException().printStackTrace();
@@ -248,6 +249,10 @@ public class BookmarkViewController implements Initializable {
                 bodys.item(0).appendChild(scriptElm);
             }
         }
+    }
+
+    private void loadInitialPage() {
+        webEngine.load("https://www.diigo.com/sign-in?referInfo=https%3A%2F%2Fwww.diigo.com");
     }
 
 }
