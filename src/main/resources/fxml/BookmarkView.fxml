@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
@@ -30,45 +31,51 @@
                 <ListView fx:id="bookmarkListView" prefHeight="200.0" prefWidth="200.0" />
                 <BorderPane prefHeight="200.0" prefWidth="200.0">
                     <bottom>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="200.0">
+                        <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
-                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" text="&lt;-" HBox.hgrow="NEVER">
-                                    <font>
-                                        <Font name="System Font Regular" size="16.0" fx:id="x1" />
-                                    </font>
+                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
                                     <HBox.margin>
-                                        <Insets bottom="5.0" left="10.0" fx:id="x2" />
+                                        <Insets fx:id="x2" />
                                     </HBox.margin>
+                                    <graphic>
+                                        <SVGPath content="M10,16 10,0 0,8z" />
+                                    </graphic>
                                 </Button>
-                                <Button fx:id="forwardButton" font="$x1" mnemonicParsing="false" onAction="#handleForwardButtonAction" text="-&gt;" HBox.hgrow="NEVER">
+                                <Button fx:id="forwardButton" font="$x1" mnemonicParsing="false" onAction="#handleForwardButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
                                     <HBox.margin>
-                                        <Insets bottom="5.0" left="5.0" />
+                                        <Insets />
                                     </HBox.margin>
+                                    <graphic>
+                                        <SVGPath content="M 0,16 0,0 10,8 z" />
+                                    </graphic>
                                 </Button>
-                                <Button fx:id="stopButton" mnemonicParsing="false" onAction="#handleStopButtonAction" text="×" HBox.hgrow="NEVER" HBox.margin="$x2">
-                                    <font>
-                                        <Font name="Meiryo Bold" size="16.0" />
-                                    </font>
+                                <Button fx:id="stopButton" mnemonicParsing="false" onAction="#handleStopButtonAction" styleClass="browser-button" HBox.hgrow="NEVER" HBox.margin="$x2">
+                                    <graphic>
+                                        <SVGPath content="M 12.055,8.021 16.035,4.024 12.016,0.001 8.025,3.991 4.037,0 0,3.992 4.008,8.009 0.016,12 l 4.016,4.079 4.011,-4.028 4.003,4.013 4.004,-4.044 z" />
+                                    </graphic>
                                 </Button>
                                 <TextField fx:id="locationBar" onKeyPressed="#handleLocationBarKeyPressed" prefWidth="200.0" HBox.hgrow="ALWAYS" HBox.margin="$x2" />
-                                <ProgressIndicator fx:id="webIndicator" prefHeight="20.0" prefWidth="20.0" progress="-1.0" visible="false">
+                                <ProgressIndicator fx:id="webIndicator" visible="false" progress="-1.0" styleClass="throbber">
                                     <HBox.margin>
-                                        <Insets bottom="5.0" left="10.0" right="10.0" />
+                                        <Insets />
                                     </HBox.margin>
                                 </ProgressIndicator>
                             </children>
+                            <padding>
+                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                            </padding>
                         </HBox>
                     </bottom>
                     <center>
                         <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" />
                     </center>
-               <top>
-                  <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                    <items>
-                      <Button onAction="#handleDiigoButtonAction" mnemonicParsing="false" styleClass="diigo-button" text="diigolet" />
-                    </items>
-                  </ToolBar>
-               </top>
+                    <top>
+                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <items>
+                                <Button mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="diigolet" />
+                            </items>
+                        </ToolBar>
+                    </top>
                 </BorderPane>
             </items>
         </SplitPane>

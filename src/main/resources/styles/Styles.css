@@ -25,3 +25,44 @@
 .diigo-button {
     -fx-graphic: url(https://www.diigo.com/images/diigo-icon/16.png);
 }
+
+.button-icon-shape {
+    -fx-scale-x: 2.0;
+    -fx-scale-y: 2.0;
+}
+ 
+.stop-button-icon {
+    -fx-fill: black;
+}
+ 
+.browser-button {
+    -fx-pref-width: 3.0em;
+    -fx-pref-height: 3.0em;
+    -fx-background-radius: 1.5em;
+    -fx-background-color: null;
+    -fx-border-radius: 1.5em;
+    -fx-border-color: black;
+    -fx-border-width: 2.0px;
+}
+ 
+.browser-button:disabled {
+    -fx-border-color: rgb(0, 0, 0, 0.7);
+}
+ 
+.browser-button:hover {
+    -fx-background-color: #dcdcdc;
+}
+ 
+.browser-button:pressed {
+    -fx-background-color: black;
+    -fx-border-color: white;
+}
+ 
+.browser-button:pressed SVGPath {
+    -fx-fill: white;
+}
+
+.throbber {
+    -fx-pref-width: 3.0em;
+    -fx-pref-height: 3.0em;
+}
