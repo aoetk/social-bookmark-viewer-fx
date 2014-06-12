@@ -26,6 +26,10 @@
     -fx-graphic: url(https://www.diigo.com/images/diigo-icon/16.png);
 }
 
+.evernote-button {
+    -fx-graphic: url(../images/evernote.png)
+}
+
 .button-icon-shape {
     -fx-scale-x: 2.0;
     -fx-scale-y: 2.0;
