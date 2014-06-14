@@ -35,6 +35,14 @@ public class BookmarkViewController implements Initializable {
 
     private static final String DIIGOLET_URL = "https://www.diigo.com/javascripts/webtoolbar/diigolet_b_h_b.js";
 
+    private static final String EVERNOTE_CLIPPER_SCRIPT =
+            "javascript:(function(){EN_CLIP_HOST='http://www.evernote.com';" +
+                    "try{var x=document.createElement('SCRIPT');x.type='text/javascript';" +
+                    "x.src=EN_CLIP_HOST+'/public/bookmarkClipper.js?'+(new Date().getTime()/100000);" +
+                    "document.getElementsByTagName('head')[0].appendChild(x);}" +
+                    "catch(e){location.href=EN_CLIP_HOST+'/clip.action?url=" +
+                    "'+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();";
+
     @FXML
     Label progressLabel;
 
@@ -248,6 +256,17 @@ public class BookmarkViewController implements Initializable {
             if (bodys != null && bodys.getLength() > 0) {
                 bodys.item(0).appendChild(scriptElm);
             }
+        }
+    }
+
+    /**
+     * Evernote Webクリッパーを起動する.
+     *
+     * @param event イベント
+     */
+    public void handleClipButtonAction(ActionEvent event) {
+        if (webEngine.getDocument() != null) {
+            webEngine.executeScript(EVERNOTE_CLIPPER_SCRIPT);
         }
     }
 

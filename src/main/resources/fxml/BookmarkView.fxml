@@ -73,7 +73,7 @@
                         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                             <items>
                                 <Button mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" />
-                                <Button mnemonicParsing="false" styleClass="evernote-button" text="Clip" />
+                                <Button mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" />
                             </items>
                         </ToolBar>
                     </top>
