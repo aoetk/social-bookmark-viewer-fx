@@ -9,8 +9,6 @@ public class ApplicationContext {
 
     private static final int WINDOWS_DPI = 96;
 
-    private static final int MAC_DPI = 72;
-
     private static ApplicationContext ourInstance = new ApplicationContext();
 
     private double scaleFactor = -1;
@@ -31,9 +29,11 @@ public class ApplicationContext {
         if (scaleFactor == -1) {
             Screen screen = Screen.getPrimary();
             if (screen != null) {
-                double screenDpi = screen.getDpi();
-                String osName = System.getProperty("os.name");
-                scaleFactor = osName.startsWith("Mac OS X") ? screenDpi / MAC_DPI : screenDpi / WINDOWS_DPI;
+                if (System.getProperty("os.name").startsWith("Mac OS X")) {
+                    scaleFactor = 1;
+                } else {
+                    scaleFactor = screen.getDpi() / WINDOWS_DPI;
+                }
             }
         }
         return scaleFactor;
