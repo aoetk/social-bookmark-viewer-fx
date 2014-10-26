@@ -297,6 +297,17 @@ public class BookmarkViewController implements Initializable {
             final Document document = webEngine.getDocument();
             addScriptElement(document, JQUERY_URL);
             addScriptElement(document, JQ_HIGHLIGHT_URL);
+            addStyleElement(document, ".highlight { background-color: yellow; }");
+        }
+    }
+
+    private void addStyleElement(Document document, String styleContent) {
+        final Element styleElm = document.createElement("style");
+        styleElm.setAttribute("type", "text/css");
+        styleElm.setTextContent(styleContent);
+        NodeList bodys = document.getElementsByTagName("body");
+        if (bodys != null && bodys.getLength() > 0) {
+            bodys.item(0).appendChild(styleElm);
         }
     }
 
