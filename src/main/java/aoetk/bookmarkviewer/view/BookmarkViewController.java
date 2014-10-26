@@ -43,6 +43,11 @@ public class BookmarkViewController implements Initializable {
                     "catch(e){location.href=EN_CLIP_HOST+'/clip.action?url=" +
                     "'+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();";
 
+    private static final String JQUERY_URL = "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js";
+
+    private static final String JQ_HIGHLIGHT_URL =
+            "http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js";
+
     @FXML
     TextField pageSearchBox;
 
@@ -143,6 +148,7 @@ public class BookmarkViewController implements Initializable {
         webIndicator.visibleProperty().bind(webEngine.getLoadWorker().stateProperty().isEqualTo(Worker.State.RUNNING));
         backButton.disableProperty().bind(history.currentIndexProperty().isEqualTo(0));
         stopButton.disableProperty().bind(loadWorker.runningProperty().not());
+        pageSearchBox.disableProperty().bind(loadWorker.runningProperty());
     }
 
     private void addListeners() {
@@ -178,6 +184,11 @@ public class BookmarkViewController implements Initializable {
         history.currentIndexProperty().addListener((property, oldValue, newValue) ->
                 forwardButton.setDisable(history.getCurrentIndex() + 1 == history.getEntries().size()));
         webEngine.locationProperty().addListener((observableValue, oldVal, newVal) -> locationBar.setText(newVal));
+        loadWorker.stateProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue == Worker.State.SUCCEEDED) {
+                addHighlightPlugin(); // 読み込みが成功した場合、検索用プラグインを読み込む
+            }
+        });
     }
 
     private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
@@ -252,13 +263,17 @@ public class BookmarkViewController implements Initializable {
     void handleDiigoButtonAction(ActionEvent event) {
         if (webEngine.getDocument() != null) {
             final Document document = webEngine.getDocument();
-            final Element scriptElm = document.createElement("script");
-            scriptElm.setAttribute("type", "text/javascript");
-            scriptElm.setAttribute("src", DIIGOLET_URL);
-            NodeList bodys = document.getElementsByTagName("body");
-            if (bodys != null && bodys.getLength() > 0) {
-                bodys.item(0).appendChild(scriptElm);
-            }
+            addScriptElement(document, DIIGOLET_URL);
+        }
+    }
+
+    private void addScriptElement(Document document, String url) {
+        final Element scriptElm = document.createElement("script");
+        scriptElm.setAttribute("type", "text/javascript");
+        scriptElm.setAttribute("src", url);
+        NodeList bodys = document.getElementsByTagName("body");
+        if (bodys != null && bodys.getLength() > 0) {
+            bodys.item(0).appendChild(scriptElm);
         }
     }
 
@@ -275,6 +290,14 @@ public class BookmarkViewController implements Initializable {
 
     private void loadInitialPage() {
         webEngine.load("https://www.diigo.com/sign-in?referInfo=https%3A%2F%2Fwww.diigo.com");
+    }
+
+    private void addHighlightPlugin() {
+        if (webEngine.getDocument() != null) {
+            final Document document = webEngine.getDocument();
+            addScriptElement(document, JQUERY_URL);
+            addScriptElement(document, JQ_HIGHLIGHT_URL);
+        }
     }
 
 }
