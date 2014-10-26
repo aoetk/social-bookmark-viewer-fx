@@ -44,6 +44,9 @@ public class BookmarkViewController implements Initializable {
                     "'+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();";
 
     @FXML
+    TextField pageSearchBox;
+
+    @FXML
     Label progressLabel;
 
     @FXML

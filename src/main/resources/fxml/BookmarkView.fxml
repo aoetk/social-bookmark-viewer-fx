@@ -74,6 +74,8 @@
                             <items>
                                 <Button mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" />
                                 <Button mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="pageSearchBox" promptText="Find in page" />
                             </items>
                         </ToolBar>
                     </top>
