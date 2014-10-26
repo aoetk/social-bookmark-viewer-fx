@@ -189,6 +189,10 @@ public class BookmarkViewController implements Initializable {
                 addHighlightPlugin(); // 読み込みが成功した場合、検索用プラグインを読み込む
             }
         });
+
+        // Webページ上での検索処理
+        pageSearchBox.textProperty().addListener(
+                (observable, oldValue, newValue) -> highlightpage(Optional.ofNullable(newValue)));
     }
 
     private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
@@ -309,6 +313,16 @@ public class BookmarkViewController implements Initializable {
         if (bodys != null && bodys.getLength() > 0) {
             bodys.item(0).appendChild(styleElm);
         }
+    }
+
+    private void highlightpage(Optional<String> word) {
+        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
+            final String keyword = word.orElse("");
+            webEngine.executeScript("$('body').removeHighlight()");
+            if (!keyword.isEmpty()) {
+                webEngine.executeScript("$('body').removeHighlight().highlight('" + keyword + "')");
+            }
+        });
     }
 
 }
