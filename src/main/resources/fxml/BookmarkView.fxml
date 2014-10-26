@@ -25,7 +25,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                     </padding>
                     <top>
-                        <TextField fx:id="searchBox" prefWidth="200.0" />
+                        <TextField fx:id="searchBox" prefWidth="200.0" promptText="Search tag" />
                     </top>
                 </BorderPane>
                 <ListView fx:id="bookmarkListView" prefHeight="200.0" prefWidth="200.0" />
