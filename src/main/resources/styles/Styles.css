@@ -22,6 +22,10 @@
     -fx-fill: dimgray;
 }
 
+.page-title {
+    -fx-font-weight: bold;
+}
+
 .diigo-button {
     -fx-graphic: url(https://www.diigo.com/images/diigo-icon/16.png);
 }

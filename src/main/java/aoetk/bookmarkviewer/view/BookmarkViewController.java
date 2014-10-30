@@ -49,6 +49,9 @@ public class BookmarkViewController implements Initializable {
             "http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js";
 
     @FXML
+    Label pageTitle;
+
+    @FXML
     TextField pageSearchBox;
 
     @FXML
@@ -149,6 +152,7 @@ public class BookmarkViewController implements Initializable {
         backButton.disableProperty().bind(history.currentIndexProperty().isEqualTo(0));
         stopButton.disableProperty().bind(loadWorker.runningProperty().not());
         pageSearchBox.disableProperty().bind(loadWorker.runningProperty());
+        pageTitle.textProperty().bind(webEngine.titleProperty());
     }
 
     private void addListeners() {
