@@ -72,12 +72,12 @@
                     <top>
                         <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                             <items>
-                                <Button mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" />
-                                <Button mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" />
+                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" HBox.hgrow="NEVER" />
+                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" HBox.hgrow="NEVER" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="pageTitle" styleClass="page-title" />
+                                <Label fx:id="pageTitle" styleClass="page-title" HBox.hgrow="SOMETIMES" />
                                 <Region HBox.hgrow="ALWAYS" />
-                                <TextField fx:id="pageSearchBox" promptText="Find in page" />
+                                <TextField fx:id="pageSearchBox" promptText="Find in page" HBox.hgrow="NEVER" />
                             </items>
                         </ToolBar>
                     </top>
