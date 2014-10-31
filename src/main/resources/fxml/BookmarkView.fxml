@@ -41,7 +41,7 @@
                                         <SVGPath content="M10,16 10,0 0,8z" />
                                     </graphic>
                                 </Button>
-                                <Button fx:id="forwardButton" font="$x1" mnemonicParsing="false" onAction="#handleForwardButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
+                                <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#handleForwardButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
                                     <HBox.margin>
                                         <Insets />
                                     </HBox.margin>
