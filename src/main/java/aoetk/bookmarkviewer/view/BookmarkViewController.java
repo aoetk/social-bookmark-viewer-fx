@@ -269,9 +269,20 @@ public class BookmarkViewController implements Initializable {
      */
     @FXML
     void handleDiigoButtonAction(ActionEvent event) {
-        if (webEngine.getDocument() != null) {
-            final Document document = webEngine.getDocument();
+        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
             addScriptElement(document, DIIGOLET_URL);
+        });
+    }
+
+    /**
+     * Evernote Webクリッパーを起動する.
+     *
+     * @param event イベント
+     */
+    @FXML
+    void handleClipButtonAction(ActionEvent event) {
+        if (webEngine.getDocument() != null) {
+            webEngine.executeScript(EVERNOTE_CLIPPER_SCRIPT);
         }
     }
 
@@ -285,28 +296,16 @@ public class BookmarkViewController implements Initializable {
         }
     }
 
-    /**
-     * Evernote Webクリッパーを起動する.
-     *
-     * @param event イベント
-     */
-    public void handleClipButtonAction(ActionEvent event) {
-        if (webEngine.getDocument() != null) {
-            webEngine.executeScript(EVERNOTE_CLIPPER_SCRIPT);
-        }
-    }
-
     private void loadInitialPage() {
         webEngine.load("https://www.diigo.com/sign-in?referInfo=https%3A%2F%2Fwww.diigo.com");
     }
 
     private void addHighlightPlugin() {
-        if (webEngine.getDocument() != null) {
-            final Document document = webEngine.getDocument();
+        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
             addScriptElement(document, JQUERY_URL);
             addScriptElement(document, JQ_HIGHLIGHT_URL);
             addStyleElement(document, ".highlight { background-color: yellow; }");
-        }
+        });
     }
 
     private void addStyleElement(Document document, String styleContent) {
