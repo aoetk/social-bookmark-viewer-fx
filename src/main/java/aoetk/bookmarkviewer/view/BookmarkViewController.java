@@ -1,11 +1,13 @@
 package aoetk.bookmarkviewer.view;
 
-import aoetk.bookmarkviewer.ApplicationContext;
+import aoetk.bookmarkviewer.conf.ApplicationContext;
+import aoetk.bookmarkviewer.conf.BookmarkViewSettings;
 import aoetk.bookmarkviewer.model.BookmarkEntry;
 import aoetk.bookmarkviewer.model.BookmarkModel;
 import aoetk.bookmarkviewer.service.DiigoServiceClient;
 import aoetk.bookmarkviewer.service.LoadingBookmarkService;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -47,6 +49,9 @@ public class BookmarkViewController implements Initializable {
 
     private static final String JQ_HIGHLIGHT_URL =
             "http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js";
+
+    @FXML
+    SplitPane baseSplitPane;
 
     @FXML
     Label pageTitle;
@@ -115,6 +120,8 @@ public class BookmarkViewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         bookmarkListView.setCellFactory(bookmarkEntryListView -> new BookmarkCell());
         ApplicationContext context = ApplicationContext.getInstance();
+        BookmarkViewSettings bookmarkViewSettings = context.getBookmarkViewSettings();
+        initViewSettings(bookmarkViewSettings);
         webView.setZoom(context.getScaleFactor());
         webEngine = webView.getEngine();
         history = webEngine.getHistory();
@@ -125,6 +132,21 @@ public class BookmarkViewController implements Initializable {
             loadBookmark(dialog.getUser(), dialog.getPassword());
         });
         basePane.getChildren().add(dialog);
+    }
+
+    private void initViewSettings(BookmarkViewSettings bookmarkViewSettings) {
+        basePane.setPrefWidth(bookmarkViewSettings.baseWidthProperty().get());
+        basePane.setPrefHeight(bookmarkViewSettings.baseHeightProperty().get());
+        ObservableList<SplitPane.Divider> dividers = baseSplitPane.getDividers();
+        assert dividers.size() == 2;
+        dividers.get(0).setPosition(bookmarkViewSettings.leftDividerPosProperty().get());
+        dividers.get(1).setPosition(bookmarkViewSettings.rightDividerPosProperty().get());
+
+        // bind
+        bookmarkViewSettings.baseWidthProperty().bind(basePane.widthProperty());
+        bookmarkViewSettings.baseHeightProperty().bind(basePane.heightProperty());
+        bookmarkViewSettings.leftDividerPosProperty().bind(dividers.get(0).positionProperty());
+        bookmarkViewSettings.rightDividerPosProperty().bind(dividers.get(1).positionProperty());
     }
 
     private void loadBookmark(String userName, String password) {

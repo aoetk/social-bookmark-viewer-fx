@@ -1,5 +1,6 @@
 package aoetk.bookmarkviewer;
 
+import aoetk.bookmarkviewer.conf.ApplicationContext;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +19,13 @@ public class MainApp extends Application {
         Scene scene = new Scene(root);
         stage.setTitle("Social Bookmark Viewer FX");
         stage.setScene(scene);
+
+        ApplicationContext applicationContext = ApplicationContext.getInstance();
+        stage.setX(applicationContext.stageXProperty().get());
+        stage.setY(applicationContext.stageYProperty().get());
+        applicationContext.stageXProperty().bind(stage.xProperty());
+        applicationContext.stageYProperty().bind(stage.yProperty());
+
         stage.show();
     }
 
