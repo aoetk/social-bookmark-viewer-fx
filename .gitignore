@@ -47,3 +47,6 @@ dist/
 nbdist/
 nbactions.xml
 nb-configuration.xml
+
+# App config
+app.properties

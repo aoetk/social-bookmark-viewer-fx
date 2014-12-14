@@ -20,12 +20,18 @@ public class MainApp extends Application {
         stage.setTitle("Social Bookmark Viewer FX");
         stage.setScene(scene);
 
-        ApplicationContext applicationContext = ApplicationContext.getInstance();
+        final ApplicationContext applicationContext = ApplicationContext.getInstance();
         stage.setX(applicationContext.stageXProperty().get());
         stage.setY(applicationContext.stageYProperty().get());
         applicationContext.stageXProperty().bind(stage.xProperty());
         applicationContext.stageYProperty().bind(stage.yProperty());
 
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                applicationContext.saveConf();
+            }
+        });
         stage.show();
     }
 

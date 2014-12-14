@@ -4,10 +4,25 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.stage.Screen;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Properties;
+
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
+
 /**
  * アプリケーションのコンテキスト.
  */
 public class ApplicationContext {
+
+    /** 設定ファイル名. */
+    public static final String CONFIG_FILE_NAME = "app.properties";
 
     private static final int WINDOWS_DPI = 96;
 
@@ -21,6 +36,8 @@ public class ApplicationContext {
 
     private BookmarkViewSettings bookmarkViewSettings = new BookmarkViewSettings();
 
+    private Properties appProperties = new Properties();
+
     /**
      * インスタンスを取得する.
      *
@@ -31,6 +48,57 @@ public class ApplicationContext {
     }
 
     private ApplicationContext() {
+        loadConf();
+    }
+
+    private void loadConf() {
+        assert appProperties != null;
+        Path confFilePath = Paths.get(CONFIG_FILE_NAME);
+        if (Files.exists(confFilePath)) {
+            try (InputStream inputStream = Files.newInputStream(confFilePath)) {
+                appProperties.load(inputStream);
+                restoreSettings();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void restoreSettings() {
+        assert appProperties != null;
+        stageX.set(Double.parseDouble(appProperties.getProperty(stageX.getName())));
+        stageY.set(Double.parseDouble(appProperties.getProperty(stageY.getName())));
+        bookmarkViewSettings.baseWidthProperty().set(Double.parseDouble(
+                appProperties.getProperty(bookmarkViewSettings.baseWidthProperty().getName())));
+        bookmarkViewSettings.baseHeightProperty().set(Double.parseDouble(
+                appProperties.getProperty(bookmarkViewSettings.baseHeightProperty().getName())));
+        bookmarkViewSettings.leftDividerPosProperty().set(Double.parseDouble(
+                appProperties.getProperty(bookmarkViewSettings.leftDividerPosProperty().getName())));
+        bookmarkViewSettings.rightDividerPosProperty().set(Double.parseDouble(
+                appProperties.getProperty(bookmarkViewSettings.rightDividerPosProperty().getName())));
+    }
+
+    /**
+     * 設定類をセーブする.
+     */
+    public void saveConf() {
+        assert appProperties != null;
+        Path confFilePath = Paths.get(CONFIG_FILE_NAME);
+        try (BufferedWriter writer = Files.newBufferedWriter(confFilePath, CREATE, TRUNCATE_EXISTING, WRITE)) {
+            appProperties.setProperty(stageX.getName(), String.valueOf(stageX.get()));
+            appProperties.setProperty(stageY.getName(), String.valueOf(stageY.get()));
+            appProperties.setProperty(bookmarkViewSettings.baseWidthProperty().getName(),
+                    String.valueOf(bookmarkViewSettings.baseWidthProperty().get()));
+            appProperties.setProperty(bookmarkViewSettings.baseHeightProperty().getName(),
+                    String.valueOf(bookmarkViewSettings.baseHeightProperty().get()));
+            appProperties.setProperty(bookmarkViewSettings.leftDividerPosProperty().getName(),
+                    String.valueOf(bookmarkViewSettings.leftDividerPosProperty().get()));
+            appProperties.setProperty(bookmarkViewSettings.rightDividerPosProperty().getName(),
+                    String.valueOf(bookmarkViewSettings.rightDividerPosProperty().get()));
+            appProperties.store(writer, "Settings for Social Bookmark Viewer FX");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
