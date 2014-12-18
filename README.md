@@ -19,6 +19,11 @@ API キーの設定を行ったら、Maven を使ってビルドしてくださ�
 
 ビルドの結果 `target` 以下に生成された JAR を実行します。
 
+Dependent Libraries
+-------------------
+ * [Jersey](https://jersey.java.net)
+ * [Jackson](http://jackson.codehaus.org)
+
 License
 -------
 Apache License, Version 2.0
