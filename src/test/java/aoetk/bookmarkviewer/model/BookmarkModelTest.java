@@ -2,6 +2,7 @@ package aoetk.bookmarkviewer.model;
 
 import aoetk.bookmarkviewer.service.BookmarkServiceClient;
 import javafx.collections.ObservableMap;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
@@ -10,8 +11,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import org.junit.Before;
 
 /**
  * {@link aoetk.bookmarkviewer.model.BookmarkModel}のテスト.
@@ -58,7 +57,7 @@ public class BookmarkModelTest {
     @Test
     public void testSelectedEntriesByTags() throws Exception {
         sut.selectedEntriesByTags(Optional.of(Arrays.asList("foo", "bar")));
-        assertThat(sut.getSelectedEntries().size(), is(3));
+        assertThat(sut.getSelectedEntries().size(), is(1));
     }
 
     @Test

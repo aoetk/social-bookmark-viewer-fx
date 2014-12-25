@@ -117,6 +117,7 @@ public class BookmarkModel {
                         // 降順ソートする
                         // 作成時刻の差がintの範囲を超えるとおかしくなるけど、まあそれはそれで
                         .sorted((o1, o2) -> (int) (o2.getCreatedAt() - o1.getCreatedAt()))
+                        .filter(filteredEntry -> filteredEntry.getTags().containsAll(items))
                         .collect(Collectors.toList()))
                 .orElseGet(() -> entries);
         selectedEntries.addAll(matchedEntries);
