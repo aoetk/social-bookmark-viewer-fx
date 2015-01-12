@@ -1,5 +1,6 @@
 package aoetk.bookmarkviewer.service;
 
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.jackson.JacksonFeature;
 
 import javax.ws.rs.client.Client;
@@ -22,6 +23,7 @@ public abstract class WebServiceClientBase {
         this.client = ClientBuilder.newBuilder()
                 .register(JacksonFeature.class)
                 .register(JacksonObjectMapperProvider.class)
+                .property(ClientProperties.FOLLOW_REDIRECTS, Boolean.FALSE)
                 .build();
     }
 
