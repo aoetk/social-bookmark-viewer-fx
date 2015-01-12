@@ -3,6 +3,7 @@ package aoetk.bookmarkviewer.service;
 import aoetk.bookmarkviewer.model.BookmarkEntry;
 import javafx.beans.property.ReadOnlyIntegerProperty;
 
+import javax.ws.rs.core.Cookie;
 import java.util.List;
 
 /**
@@ -25,5 +26,12 @@ public interface BookmarkServiceClient {
      * @return ブックマークエントリの読み込み数
      */
     public ReadOnlyIntegerProperty loadedCountProperty();
+
+    /**
+     * ブックマークWebサービスのログインに必要なCookieを取得する.
+     *
+     * @return ブックマークWebサービスのログインに必要なCookie
+     */
+    public List<Cookie> getLoginCookies();
 
 }

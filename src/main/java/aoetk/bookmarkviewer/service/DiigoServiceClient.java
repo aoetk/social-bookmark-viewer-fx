@@ -7,13 +7,14 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
 
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.ResponseProcessingException;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ブックマークWebサービスとしてDiigoを使うクライアント.
@@ -23,7 +24,12 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
     /** DiigoのWeb APIのエンドポイントURL. */
     public static final String DIIGO_API_URL = "https://secure.diigo.com/api/v2/bookmarks";
 
+    /** DiigoのWebページにログインするためのURL. */
+    public static final String DIIGO_LOGIN_URL = "https://www.diigo.com/sign-in";
+
     private String userName;
+
+    private String password;
 
     private ReadOnlyIntegerWrapper loadedCount = new ReadOnlyIntegerWrapper();
 
@@ -38,6 +44,7 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
         HttpAuthenticationFeature feature = HttpAuthenticationFeature.basic(userName, password);
         client.register(feature).register(FilterForDiigo.class);
         this.userName = userName;
+        this.password = password;
     }
 
     @Override
@@ -56,6 +63,27 @@ public class DiigoServiceClient extends WebServiceClientBase implements Bookmark
     @Override
     public ReadOnlyIntegerProperty loadedCountProperty() {
         return loadedCount.getReadOnlyProperty();
+    }
+
+    /**
+     * DiigoのログインURLに対してPOSTを行い, Cookieを取得する.
+     *
+     * @return ログインに必要なCookie
+     */
+    @Override
+    public List<Cookie> getLoginCookies() {
+        MultivaluedMap<String, String> postData = new MultivaluedHashMap<>();
+        postData.putSingle("username", userName);
+        postData.putSingle("password", password);
+        postData.putSingle("referInfo", "https://www.diigo.com");
+        Response response = client.target(DIIGO_LOGIN_URL)
+                .request(MediaType.TEXT_HTML_TYPE)
+                .post(Entity.form(postData));
+        Map<String, NewCookie> responseCookies = response.getCookies();
+        return responseCookies.entrySet().stream()
+                .filter(item -> "CHKIO".equals(item.getKey()) || "diigoandlogincookie".equals(item.getKey()))
+                .map(item -> new Cookie(item.getKey(), item.getValue().getValue()))
+                .collect(Collectors.toList());
     }
 
     private void loadEntry(int startIndex, List<BookmarkEntry> result) {
