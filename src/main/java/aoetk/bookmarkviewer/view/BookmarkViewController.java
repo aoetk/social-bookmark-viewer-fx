@@ -25,10 +25,13 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import javax.ws.rs.core.Cookie;
+import java.io.IOException;
+import java.net.CookieHandler;
+import java.net.URI;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * ブックマークビューのコントローラ.
@@ -153,10 +156,10 @@ public class BookmarkViewController implements Initializable {
         loadingBookmarkService = new LoadingBookmarkService(new DiigoServiceClient(userName, password));
         loadingBookmarkService.setOnSucceeded(workerStateEvent -> {
             bookmarkModel = loadingBookmarkService.getValue();
+            setCookie(loadingBookmarkService.getLoginCookies());
             setListContent();
             addListeners();
             setBindings();
-            loadInitialPage(); // 暫定的にDiigooのログインページを初期表示する
         });
         loadingBookmarkService.setOnFailed(workerStateEvent -> {
             loadingBookmarkService.getException().printStackTrace();
@@ -167,6 +170,20 @@ public class BookmarkViewController implements Initializable {
         vailRegion.visibleProperty().bind(loadingBookmarkService.runningProperty());
         progressLabel.textProperty().bind(loadingBookmarkService.messageProperty());
         loadingBookmarkService.start();
+    }
+
+    private void setCookie(List<Cookie> loginCookies) {
+        final URI uri = URI.create("https://www.diigo.com/");
+        final Map<String, List<String>> headerMap = new LinkedHashMap<>();
+        final List<String> cookieStrings = loginCookies.stream()
+                .map(item -> item.getName() + "=" + item.getValue())
+                .collect(Collectors.toList());
+        headerMap.put("Set-Cookie", cookieStrings);
+        try {
+            CookieHandler.getDefault().put(uri, headerMap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setBindings() {
@@ -316,10 +333,6 @@ public class BookmarkViewController implements Initializable {
         if (bodys != null && bodys.getLength() > 0) {
             bodys.item(0).appendChild(scriptElm);
         }
-    }
-
-    private void loadInitialPage() {
-        webEngine.load("https://www.diigo.com/sign-in?referInfo=https%3A%2F%2Fwww.diigo.com");
     }
 
     private void addHighlightPlugin() {
