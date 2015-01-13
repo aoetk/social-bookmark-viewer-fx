@@ -308,9 +308,7 @@ public class BookmarkViewController implements Initializable {
      */
     @FXML
     void handleDiigoButtonAction(ActionEvent event) {
-        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
-            addScriptElement(document, DIIGOLET_URL);
-        });
+        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> addScriptElement(document, DIIGOLET_URL));
     }
 
     /**
