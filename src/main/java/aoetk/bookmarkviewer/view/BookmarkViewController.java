@@ -113,6 +113,8 @@ public class BookmarkViewController implements Initializable {
 
     private LoginDialog dialog;
 
+    private boolean firstLoad = true;
+
     /**
      * 初期処理. ログインダイアログを開き, ユーザー名とパスワードを取得する.
      *
@@ -156,10 +158,13 @@ public class BookmarkViewController implements Initializable {
         loadingBookmarkService = new LoadingBookmarkService(new DiigoServiceClient(userName, password));
         loadingBookmarkService.setOnSucceeded(workerStateEvent -> {
             bookmarkModel = loadingBookmarkService.getValue();
-            setCookie(loadingBookmarkService.getLoginCookies());
             setListContent();
-            addListeners();
-            setBindings();
+            if (firstLoad) {
+                setCookie(loadingBookmarkService.getLoginCookies());
+                addListeners();
+                setBindings();
+                firstLoad = false;
+            }
         });
         loadingBookmarkService.setOnFailed(workerStateEvent -> {
             loadingBookmarkService.getException().printStackTrace();
@@ -323,6 +328,20 @@ public class BookmarkViewController implements Initializable {
         }
     }
 
+    /**
+     * ブックマークリロードを実行.
+     *
+     * @param actionEvent イベント
+     */
+    @FXML
+    void handleReloadButtonAction(ActionEvent actionEvent) {
+        searchBox.setText("");
+        tagListView.getSelectionModel().clearSelection();
+        bookmarkListView.getSelectionModel().clearSelection();
+        loadingBookmarkService.reset();
+        loadingBookmarkService.start();
+    }
+
     private void addScriptElement(Document document, String url) {
         final Element scriptElm = document.createElement("script");
         scriptElm.setAttribute("type", "text/javascript");
@@ -360,5 +379,4 @@ public class BookmarkViewController implements Initializable {
             }
         });
     }
-
 }
