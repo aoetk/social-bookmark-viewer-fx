@@ -11,79 +11,96 @@
 
 <StackPane id="StackPane" fx:id="basePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="aoetk.bookmarkviewer.view.BookmarkViewController">
     <children>
-        <SplitPane fx:id="baseSplitPane" dividerPositions="0.14023372287145242, 0.35058430717863104" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="background">
-            <items>
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                    <center>
-                        <ListView fx:id="tagListView" prefHeight="200.0" prefWidth="200.0">
-                            <BorderPane.margin>
-                                <Insets top="10.0" />
-                            </BorderPane.margin>
-                        </ListView>
-                    </center>
-                    <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                    </padding>
-                    <top>
-                        <TextField fx:id="searchBox" prefWidth="200.0" promptText="Search tag" />
-                    </top>
-                </BorderPane>
-                <ListView fx:id="bookmarkListView" prefHeight="200.0" prefWidth="200.0" />
-                <BorderPane prefHeight="200.0" prefWidth="200.0">
-                    <bottom>
-                        <HBox alignment="CENTER_LEFT" spacing="10.0">
-                            <children>
-                                <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
-                                    <HBox.margin>
-                                        <Insets fx:id="x2" />
-                                    </HBox.margin>
-                                    <graphic>
-                                        <SVGPath content="M10,16 10,0 0,8z" />
-                                    </graphic>
-                                </Button>
-                                <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#handleForwardButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                    <graphic>
-                                        <SVGPath content="M 0,16 0,0 10,8 z" />
-                                    </graphic>
-                                </Button>
-                                <Button fx:id="stopButton" mnemonicParsing="false" onAction="#handleStopButtonAction" styleClass="browser-button" HBox.hgrow="NEVER" HBox.margin="$x2">
-                                    <graphic>
-                                        <SVGPath content="M 12.055,8.021 16.035,4.024 12.016,0.001 8.025,3.991 4.037,0 0,3.992 4.008,8.009 0.016,12 l 4.016,4.079 4.011,-4.028 4.003,4.013 4.004,-4.044 z" />
-                                    </graphic>
-                                </Button>
-                                <TextField fx:id="locationBar" onKeyPressed="#handleLocationBarKeyPressed" prefWidth="200.0" HBox.hgrow="ALWAYS" HBox.margin="$x2" />
-                                <ProgressIndicator fx:id="webIndicator" progress="-1.0" styleClass="throbber" visible="false">
-                                    <HBox.margin>
-                                        <Insets />
-                                    </HBox.margin>
-                                </ProgressIndicator>
-                            </children>
-                            <padding>
-                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                            </padding>
-                        </HBox>
-                    </bottom>
-                    <center>
-                        <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" />
-                    </center>
-                    <top>
-                        <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                            <items>
-                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" HBox.hgrow="NEVER" />
-                                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" HBox.hgrow="NEVER" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="pageTitle" styleClass="page-title" HBox.hgrow="SOMETIMES" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <TextField fx:id="pageSearchBox" promptText="Find in page" HBox.hgrow="NEVER" />
-                            </items>
-                        </ToolBar>
-                    </top>
-                </BorderPane>
-            </items>
-        </SplitPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0">
+         <center>
+              <SplitPane fx:id="baseSplitPane" dividerPositions="0.14023372287145242, 0.35058430717863104" focusTraversable="true" prefHeight="160.0" prefWidth="200.0" styleClass="background" BorderPane.alignment="CENTER">
+                  <items>
+                      <BorderPane prefHeight="200.0" prefWidth="200.0">
+                          <center>
+                              <ListView fx:id="tagListView" prefHeight="200.0" prefWidth="200.0">
+                                  <BorderPane.margin>
+                                      <Insets top="10.0" />
+                                  </BorderPane.margin>
+                              </ListView>
+                          </center>
+                          <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                          </padding>
+                          <top>
+                              <TextField fx:id="searchBox" prefWidth="200.0" promptText="Search tag" />
+                          </top>
+                      </BorderPane>
+                      <ListView fx:id="bookmarkListView" prefHeight="200.0" prefWidth="200.0" />
+                      <BorderPane prefHeight="200.0" prefWidth="200.0">
+                          <bottom>
+                              <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                  <children>
+                                      <Button fx:id="backButton" mnemonicParsing="false" onAction="#handleBackButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
+                                          <HBox.margin>
+                                              <Insets fx:id="x2" />
+                                          </HBox.margin>
+                                          <graphic>
+                                              <SVGPath content="M10,16 10,0 0,8z" />
+                                          </graphic>
+                                      </Button>
+                                      <Button fx:id="forwardButton" mnemonicParsing="false" onAction="#handleForwardButtonAction" styleClass="browser-button" HBox.hgrow="NEVER">
+                                          <HBox.margin>
+                                              <Insets />
+                                          </HBox.margin>
+                                          <graphic>
+                                              <SVGPath content="M 0,16 0,0 10,8 z" />
+                                          </graphic>
+                                      </Button>
+                                      <Button fx:id="stopButton" mnemonicParsing="false" onAction="#handleStopButtonAction" styleClass="browser-button" HBox.hgrow="NEVER" HBox.margin="$x2">
+                                          <graphic>
+                                              <SVGPath content="M 12.055,8.021 16.035,4.024 12.016,0.001 8.025,3.991 4.037,0 0,3.992 4.008,8.009 0.016,12 l 4.016,4.079 4.011,-4.028 4.003,4.013 4.004,-4.044 z" />
+                                          </graphic>
+                                      </Button>
+                                      <TextField fx:id="locationBar" onKeyPressed="#handleLocationBarKeyPressed" prefWidth="200.0" HBox.hgrow="ALWAYS" HBox.margin="$x2" />
+                                      <ProgressIndicator fx:id="webIndicator" progress="-1.0" styleClass="throbber" visible="false">
+                                          <HBox.margin>
+                                              <Insets />
+                                          </HBox.margin>
+                                      </ProgressIndicator>
+                                  </children>
+                                  <padding>
+                                      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                  </padding>
+                              </HBox>
+                          </bottom>
+                          <center>
+                              <WebView fx:id="webView" prefHeight="200.0" prefWidth="200.0" />
+                          </center>
+                          <top>
+                              <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                  <items>
+                                      <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleDiigoButtonAction" styleClass="diigo-button" text="Diigolet" HBox.hgrow="NEVER" />
+                                      <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#handleClipButtonAction" styleClass="evernote-button" text="Clip" HBox.hgrow="NEVER" />
+                                      <Region HBox.hgrow="ALWAYS" />
+                                      <Label fx:id="pageTitle" styleClass="page-title" HBox.hgrow="SOMETIMES" />
+                                      <Region HBox.hgrow="ALWAYS" />
+                                      <TextField fx:id="pageSearchBox" promptText="Find in page" HBox.hgrow="NEVER" />
+                                  </items>
+                              </ToolBar>
+                          </top>
+                      </BorderPane>
+                  </items>
+              </SplitPane>
+         </center>
+          <top>
+              <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                  <items>
+                      <Button mnemonicParsing="false" text="Reload" styleClass="toolbar-button" HBox.hgrow="NEVER">
+                          <graphic>
+                              <SVGPath
+                                      content="M23.883,6.086l-2.82,2.832C22.953,10.809,24,13.324,24,16c0,5.516-4.484,10-10,10v-2l-4,4l4,4v-2c7.719,0,14-6.281,14-14C28,12.254,26.539,8.734,23.883,6.086,M18,4l-4-4v2C6.281,2,0,8.281,0,16c0,3.746,1.461,7.266,4.117,9.914l2.82-2.832C5.047,21.191,4,18.676,4,16C4,10.484,8.484,6,14,6v2L18,4z"/>
+                          </graphic>
+                      </Button>
+                      <Region HBox.hgrow="ALWAYS" />
+                  </items>
+              </ToolBar>
+          </top>
+      </BorderPane>
         <Region fx:id="vailRegion" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);" />
         <VBox fx:id="indicatorBox" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0">
             <children>
