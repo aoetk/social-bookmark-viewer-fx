@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.input.*?>
 <?import javafx.scene.shape.*?>
-<?import java.lang.*?>
 <?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -88,17 +88,38 @@
               </SplitPane>
          </center>
           <top>
-              <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                  <items>
-                      <Button mnemonicParsing="false" text="Reload" onAction="#handleReloadButtonAction" styleClass="toolbar-button" HBox.hgrow="NEVER">
-                          <graphic>
-                              <SVGPath
-                                      content="M23.883,6.086l-2.82,2.832C22.953,10.809,24,13.324,24,16c0,5.516-4.484,10-10,10v-2l-4,4l4,4v-2c7.719,0,14-6.281,14-14C28,12.254,26.539,8.734,23.883,6.086,M18,4l-4-4v2C6.281,2,0,8.281,0,16c0,3.746,1.461,7.266,4.117,9.914l2.82-2.832C5.047,21.191,4,18.676,4,16C4,10.484,8.484,6,14,6v2L18,4z"/>
-                          </graphic>
-                      </Button>
-                      <Region HBox.hgrow="ALWAYS" />
-                  </items>
-              </ToolBar>
+              <VBox BorderPane.alignment="CENTER">
+                  <children>
+                      <MenuBar useSystemMenuBar="true">
+                          <menus>
+                              <Menu mnemonicParsing="false" text="Edit">
+                                  <items>
+                                      <MenuItem fx:id="tagSearchMenu" mnemonicParsing="false" text="Search Tag" disable="true" onAction="#handleSearchTagMenuAction">
+                                          <accelerator>
+                                              <KeyCodeCombination alt="UP" code="K" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                          </accelerator>
+                                      </MenuItem>
+                                      <MenuItem fx:id="pageSearchMenu" mnemonicParsing="false" text="Find in Page" disable="true" onAction="#handlePageSearchMenuAction">
+                                          <accelerator>
+                                              <KeyCodeCombination alt="UP" code="F" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                          </accelerator>
+                                      </MenuItem>
+                                  </items>
+                              </Menu>
+                          </menus>
+                      </MenuBar>
+                      <ToolBar prefHeight="40.0" prefWidth="200.0">
+                          <items>
+                              <Button mnemonicParsing="false" onAction="#handleReloadButtonAction" styleClass="toolbar-button" text="Reload" HBox.hgrow="NEVER">
+                                  <graphic>
+                                      <SVGPath content="M23.883,6.086l-2.82,2.832C22.953,10.809,24,13.324,24,16c0,5.516-4.484,10-10,10v-2l-4,4l4,4v-2c7.719,0,14-6.281,14-14C28,12.254,26.539,8.734,23.883,6.086,M18,4l-4-4v2C6.281,2,0,8.281,0,16c0,3.746,1.461,7.266,4.117,9.914l2.82-2.832C5.047,21.191,4,18.676,4,16C4,10.484,8.484,6,14,6v2L18,4z" />
+                                  </graphic>
+                              </Button>
+                              <Region HBox.hgrow="ALWAYS" />
+                          </items>
+                      </ToolBar>
+                  </children>
+              </VBox>
           </top>
       </BorderPane>
         <Region fx:id="vailRegion" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: rgba(0, 0, 0, 0.2);" />

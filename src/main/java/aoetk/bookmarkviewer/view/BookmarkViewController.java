@@ -54,6 +54,12 @@ public class BookmarkViewController implements Initializable {
             "http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js";
 
     @FXML
+    MenuItem tagSearchMenu;
+
+    @FXML
+    MenuItem pageSearchMenu;
+
+    @FXML
     SplitPane baseSplitPane;
 
     @FXML
@@ -173,6 +179,8 @@ public class BookmarkViewController implements Initializable {
         });
         indicatorBox.visibleProperty().bind(loadingBookmarkService.runningProperty());
         vailRegion.visibleProperty().bind(loadingBookmarkService.runningProperty());
+        pageSearchMenu.disableProperty().bind(vailRegion.visibleProperty());
+        tagSearchMenu.disableProperty().bind(vailRegion.visibleProperty());
         progressLabel.textProperty().bind(loadingBookmarkService.messageProperty());
         loadingBookmarkService.start();
     }
@@ -342,6 +350,26 @@ public class BookmarkViewController implements Initializable {
         loadingBookmarkService.start();
     }
 
+    /**
+     * タグ検索フィールドにフォーカスを移動する.
+     *
+     * @param event イベント
+     */
+    @FXML
+    void handleSearchTagMenuAction(ActionEvent event) {
+        searchBox.requestFocus();
+    }
+
+    /**
+     * ページ検索フィールドにフォーカスを移動する.
+     *
+     * @param event イベント
+     */
+    @FXML
+    void handlePageSearchMenuAction(ActionEvent event) {
+        pageSearchBox.requestFocus();
+    }
+
     private void addScriptElement(Document document, String url) {
         final Element scriptElm = document.createElement("script");
         scriptElm.setAttribute("type", "text/javascript");
@@ -379,4 +407,5 @@ public class BookmarkViewController implements Initializable {
             }
         });
     }
+
 }
