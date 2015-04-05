@@ -12,9 +12,6 @@ import java.util.prefs.Preferences;
  */
 public class ApplicationContext {
 
-    /** 設定ファイル名. */
-    public static final String CONFIG_FILE_NAME = "app.properties";
-
     private static final int WINDOWS_DPI = 96;
 
     private static ApplicationContext ourInstance = new ApplicationContext();
