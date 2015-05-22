@@ -1,5 +1,9 @@
 package aoetk.bookmarkviewer.view;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,10 +14,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 /**
  * ログインダイアログコンポーネント.
@@ -33,6 +33,8 @@ public class LoginDialog extends BorderPane implements Initializable {
     Button loginButton;
 
     private EventHandler<ActionEvent> onAction;
+
+    private boolean init = false;
 
     /**
      * コンストラクタ.
@@ -93,6 +95,15 @@ public class LoginDialog extends BorderPane implements Initializable {
      */
     public void showAlertText() {
         alertText.setVisible(true);
+    }
+
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        if (!init) {
+            userField.requestFocus();
+            init = true;
+        }
     }
 
 }
