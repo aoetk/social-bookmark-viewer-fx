@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.CookieHandler;
 import java.net.URI;
 import java.net.URL;
+import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,10 +49,7 @@ public class BookmarkViewController implements Initializable {
                     "catch(e){location.href=EN_CLIP_HOST+'/clip.action?url=" +
                     "'+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);}})();";
 
-    private static final String JQUERY_URL = "//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js";
-
-    private static final String JQ_HIGHLIGHT_URL =
-            "http://johannburkard.de/resources/Johann/jquery.highlight-4.closure.js";
+    private static final String FIND_FUNCTION = "window.find(\"{0}\", false, false, true, false, true, false)";
 
     @FXML
     MenuItem tagSearchMenu;
@@ -240,11 +238,6 @@ public class BookmarkViewController implements Initializable {
         history.currentIndexProperty().addListener((property, oldValue, newValue) ->
                 forwardButton.setDisable(history.getCurrentIndex() + 1 == history.getEntries().size()));
         webEngine.locationProperty().addListener((observableValue, oldVal, newVal) -> locationBar.setText(newVal));
-        loadWorker.stateProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue == Worker.State.SUCCEEDED) {
-                addHighlightPlugin(); // 読み込みが成功した場合、検索用プラグインを読み込む
-            }
-        });
 
         // Webページ上での検索処理
         pageSearchBox.textProperty().addListener(
@@ -370,6 +363,16 @@ public class BookmarkViewController implements Initializable {
         pageSearchBox.requestFocus();
     }
 
+    /**
+     * ページ検索フィールドでのアクションをハンドル. 次の検索を実行する.
+     *
+     * @param event イベント
+     */
+    @FXML
+    void handleSearchBoxAction(ActionEvent event) {
+        highlightpage(Optional.ofNullable(pageSearchBox.getText()));
+    }
+
     private void addScriptElement(Document document, String url) {
         final Element scriptElm = document.createElement("script");
         scriptElm.setAttribute("type", "text/javascript");
@@ -378,14 +381,6 @@ public class BookmarkViewController implements Initializable {
         if (bodys != null && bodys.getLength() > 0) {
             bodys.item(0).appendChild(scriptElm);
         }
-    }
-
-    private void addHighlightPlugin() {
-        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
-            addScriptElement(document, JQUERY_URL);
-            addScriptElement(document, JQ_HIGHLIGHT_URL);
-            addStyleElement(document, ".highlight { background-color: yellow; }");
-        });
     }
 
     private void addStyleElement(Document document, String styleContent) {
@@ -399,13 +394,12 @@ public class BookmarkViewController implements Initializable {
     }
 
     private void highlightpage(Optional<String> word) {
-        Optional.ofNullable(webEngine.getDocument()).ifPresent(document -> {
+        if (webEngine.getDocument() != null) {
             final String keyword = word.orElse("");
-            webEngine.executeScript("$('body').removeHighlight()");
             if (!keyword.isEmpty()) {
-                webEngine.executeScript("$('body').removeHighlight().highlight('" + keyword + "')");
+                webEngine.executeScript(MessageFormat.format(FIND_FUNCTION, keyword));
             }
-        });
+        }
     }
 
 }

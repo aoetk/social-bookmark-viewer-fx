@@ -79,7 +79,7 @@
                                       <Region HBox.hgrow="ALWAYS" />
                                       <Label fx:id="pageTitle" styleClass="page-title" HBox.hgrow="SOMETIMES" />
                                       <Region HBox.hgrow="ALWAYS" />
-                                      <TextField fx:id="pageSearchBox" promptText="Find in page" HBox.hgrow="NEVER" />
+                                      <TextField fx:id="pageSearchBox" onAction="#handleSearchBoxAction" promptText="Find in page" HBox.hgrow="NEVER" />
                                   </items>
                               </ToolBar>
                           </top>
