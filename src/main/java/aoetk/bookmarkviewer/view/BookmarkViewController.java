@@ -21,6 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
+import org.owasp.encoder.Encode;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -241,7 +242,7 @@ public class BookmarkViewController implements Initializable {
 
         // Webページ上での検索処理
         pageSearchBox.textProperty().addListener(
-                (observable, oldValue, newValue) -> highlightpage(Optional.ofNullable(newValue)));
+                (observable, oldValue, newValue) -> highlightPage(Optional.ofNullable(newValue)));
     }
 
     private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
@@ -370,7 +371,7 @@ public class BookmarkViewController implements Initializable {
      */
     @FXML
     void handleSearchBoxAction(ActionEvent event) {
-        highlightpage(Optional.ofNullable(pageSearchBox.getText()));
+        highlightPage(Optional.ofNullable(pageSearchBox.getText()));
     }
 
     private void addScriptElement(Document document, String url) {
@@ -393,11 +394,11 @@ public class BookmarkViewController implements Initializable {
         }
     }
 
-    private void highlightpage(Optional<String> word) {
+    private void highlightPage(Optional<String> word) {
         if (webEngine.getDocument() != null) {
             final String keyword = word.orElse("");
             if (!keyword.isEmpty()) {
-                webEngine.executeScript(MessageFormat.format(FIND_FUNCTION, keyword));
+                webEngine.executeScript(MessageFormat.format(FIND_FUNCTION, Encode.forJavaScriptAttribute(keyword)));
             }
         }
     }

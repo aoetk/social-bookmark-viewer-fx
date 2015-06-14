@@ -21,8 +21,9 @@ API キーの設定を行ったら、Maven を使ってビルドしてくださ�
 
 Dependent Libraries
 -------------------
- * [Jersey](https://jersey.java.net)
- * [Jackson](http://jackson.codehaus.org)
+* [Jersey](https://jersey.java.net)
+* [Jackson](http://jackson.codehaus.org)
+* [OWASP Java Encoder Project](https://www.owasp.org/index.php/OWASP_Java_Encoder_Project)
 
 License
 -------
