@@ -398,7 +398,7 @@ public class BookmarkViewController implements Initializable {
         if (webEngine.getDocument() != null) {
             final String keyword = word.orElse("");
             if (!keyword.isEmpty()) {
-                webEngine.executeScript(MessageFormat.format(FIND_FUNCTION, Encode.forJavaScriptAttribute(keyword)));
+                webEngine.executeScript(MessageFormat.format(FIND_FUNCTION, Encode.forJavaScript(keyword)));
             }
         }
     }
