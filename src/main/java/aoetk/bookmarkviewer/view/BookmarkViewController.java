@@ -132,7 +132,6 @@ public class BookmarkViewController implements Initializable {
         ApplicationContext context = ApplicationContext.getInstance();
         BookmarkViewSettings bookmarkViewSettings = context.getBookmarkViewSettings();
         initViewSettings(bookmarkViewSettings);
-        webView.setZoom(context.getScaleFactor());
         webEngine = webView.getEngine();
         history = webEngine.getHistory();
         loadWorker = webEngine.getLoadWorker();

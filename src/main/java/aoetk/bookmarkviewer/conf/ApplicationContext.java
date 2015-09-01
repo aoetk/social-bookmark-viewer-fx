@@ -2,7 +2,6 @@ package aoetk.bookmarkviewer.conf;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.stage.Screen;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -12,11 +11,7 @@ import java.util.prefs.Preferences;
  */
 public class ApplicationContext {
 
-    private static final int WINDOWS_DPI = 96;
-
     private static ApplicationContext ourInstance = new ApplicationContext();
-
-    private double scaleFactor = -1;
 
     private DoubleProperty stageX = new SimpleDoubleProperty(this, "stageX", 0.0);
 
@@ -74,25 +69,6 @@ public class ApplicationContext {
         } catch (BackingStoreException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 画面のスケール倍率を取得する.
-     *
-     * @return 画面のスケール倍率
-     */
-    public double getScaleFactor() {
-        if (scaleFactor == -1) {
-            Screen screen = Screen.getPrimary();
-            if (screen != null) {
-                if (System.getProperty("os.name").startsWith("Mac OS X")) {
-                    scaleFactor = 1;
-                } else {
-                    scaleFactor = screen.getDpi() / WINDOWS_DPI;
-                }
-            }
-        }
-        return scaleFactor;
     }
 
     /**
