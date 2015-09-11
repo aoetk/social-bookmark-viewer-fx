@@ -14,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
@@ -206,6 +208,15 @@ public class BookmarkViewController implements Initializable {
     }
 
     private void addListeners() {
+        // ブラウザロケーションバーのショートカット設定
+        final KeyCombination combinationForLocationBar =
+                new KeyCodeCombination(KeyCode.L, KeyCombination.SHORTCUT_DOWN);
+        basePane.getScene().addEventHandler(KeyEvent.KEY_RELEASED, event -> {
+            if (combinationForLocationBar.match(event)) {
+                focusLocationBar();
+            }
+        });
+
         // タグの検索処理
         searchBox.textProperty().addListener((observable, oldValue, newValue)
                 -> bookmarkModel.selectTagsByKeyword(Optional.of(newValue)));
@@ -242,23 +253,6 @@ public class BookmarkViewController implements Initializable {
         // Webページ上での検索処理
         pageSearchBox.textProperty().addListener(
                 (observable, oldValue, newValue) -> highlightPage(Optional.ofNullable(newValue)));
-    }
-
-    private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
-        Hyperlink tagLink = (Hyperlink) event.getTarget();
-        searchBox.setText("");
-        tagSelectionModel.clearSelection();
-        tagSelectionModel.select(tagLink.getText());
-        tagListView.scrollTo(tagLink.getText());
-    }
-
-    private void loadWebContent(String url) {
-        webEngine.load(url);
-    }
-
-    private void setListContent() {
-        tagListView.setItems(bookmarkModel.getSelectedTags());
-        bookmarkListView.setItems(bookmarkModel.getSelectedEntries());
     }
 
     /**
@@ -371,6 +365,28 @@ public class BookmarkViewController implements Initializable {
     @FXML
     void handleSearchBoxAction(ActionEvent event) {
         highlightPage(Optional.ofNullable(pageSearchBox.getText()));
+    }
+
+    private void focusLocationBar() {
+        locationBar.requestFocus();
+        locationBar.selectAll();
+    }
+
+    private void handleTagLinkAction(ActionEvent event, final MultipleSelectionModel<String> tagSelectionModel) {
+        Hyperlink tagLink = (Hyperlink) event.getTarget();
+        searchBox.setText("");
+        tagSelectionModel.clearSelection();
+        tagSelectionModel.select(tagLink.getText());
+        tagListView.scrollTo(tagLink.getText());
+    }
+
+    private void loadWebContent(String url) {
+        webEngine.load(url);
+    }
+
+    private void setListContent() {
+        tagListView.setItems(bookmarkModel.getSelectedTags());
+        bookmarkListView.setItems(bookmarkModel.getSelectedEntries());
     }
 
     private void addScriptElement(Document document, String url) {
