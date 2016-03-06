@@ -57,7 +57,7 @@
                                           </graphic>
                                       </Button>
                                       <TextField fx:id="locationBar" onKeyPressed="#handleLocationBarKeyPressed" prefWidth="200.0" HBox.hgrow="ALWAYS" HBox.margin="$x2" />
-                                      <ProgressIndicator fx:id="webIndicator" progress="-1.0" styleClass="throbber" visible="false">
+                                      <ProgressIndicator fx:id="webIndicator" progress="-1.0" styleClass="throbber" managed="false" visible="false">
                                           <HBox.margin>
                                               <Insets />
                                           </HBox.margin>

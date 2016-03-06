@@ -201,6 +201,7 @@ public class BookmarkViewController implements Initializable {
 
     private void setBindings() {
         webIndicator.visibleProperty().bind(webEngine.getLoadWorker().stateProperty().isEqualTo(Worker.State.RUNNING));
+        webIndicator.managedProperty().bind(webEngine.getLoadWorker().stateProperty().isEqualTo(Worker.State.RUNNING));
         backButton.disableProperty().bind(history.currentIndexProperty().isEqualTo(0));
         stopButton.disableProperty().bind(loadWorker.runningProperty().not());
         pageSearchBox.disableProperty().bind(loadWorker.runningProperty());
